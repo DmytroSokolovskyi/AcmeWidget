@@ -27,7 +27,7 @@ export const defaultOfferRules: OfferRule[] = [
 
             const redPrice = catalog.byCode.R01?.unitPriceCents ?? 0;
             const discountedItems = Math.floor(redCount / 2);
-            return discountedItems * Math.floor(redPrice / 2);
+            return discountedItems * Math.ceil(redPrice / 2);
         },
     },
 ];
