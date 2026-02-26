@@ -1,73 +1,39 @@
-# React + TypeScript + Vite
+# Acme Widget Store - Basket
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend implementation of a shopping basket with pricing rules, discounts,
+and tiered delivery. Built using
+React, TypeScript, Vite, Tailwind v4, and Vitest.
 
-Currently, two official plugins are available:
+All money is stored and calculated in cents to avoid floating-point rounding
+issues.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## React Compiler
+I kept the structure flat to make review easier:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- src/core — all business logic (Basket, pricing rules, delivery rules)
+- src/hooks — useBasket as adapter between React state and core logic
+- src/components — UI only (catalog + basket summary), styled with Tailwind v4
 
-## Expanding the ESLint configuration
+## Trade-offs & Decisions
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Domain logic is independent from React, so it can be tested and changed
+  safely.
+- For this scope I skipped aliases and heavier architecture (FSD) to avoid
+  extra setup.
+- Promo and delivery rules are in pricingRules.ts, so new campaigns can be
+  added without rewriting basket internals.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Commands
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```bash
+npm install
+npm run dev
+npm run test
+npm run lint
+npm run build
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Next steps
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- add quantity controls (+ / - / remove)
+- improve empty/loading UI states
