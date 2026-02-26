@@ -1,35 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {BasketSummary} from './components/basket/BasketSummary'
+import {useBasket} from './hooks/useBasket'
+import {ProductCatalog} from './components/ProductCatalog/ProductCatalog';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const {addProduct, clearBasket, breakdown, items} = useBasket();
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <main className="min-h-screen bg-background px-4 py-6">
+            <div className="mx-auto max-w-5xl">
+                <div className="grid gap-4 md:grid-cols-2">
+                    <ProductCatalog onAdd={addProduct}/>
+                    <div className="space-y-4">
+                        <BasketSummary breakdown={breakdown} items={items} onClear={clearBasket}/>
+                    </div>
+                </div>
+            </div>
+        </main>
+    );
 }
 
 export default App

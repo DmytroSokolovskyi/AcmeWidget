@@ -31,5 +31,3 @@ export const defaultOfferRules: OfferRule[] = [
         },
     },
 ];
-
-export const formatUsd = (cents: number): string => `$${(cents / 100).toFixed(2)}`;
